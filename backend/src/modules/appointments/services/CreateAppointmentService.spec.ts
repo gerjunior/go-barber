@@ -8,13 +8,15 @@ import User from '@modules/users/infra/typeorm/entities/User';
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
-let createAppointment: CreateAppointmentService;
 let fakeUsersRepository: FakeUsersRepository;
-let createUser: CreateUserService;
 let fakeHashProvider: FakeHashProvider;
+let fakeNotificationsRepository: FakeNotificationsRepository;
+let createAppointment: CreateAppointmentService;
+let createUser: CreateUserService;
 
 let provider: User;
 let user: User;
@@ -24,10 +26,12 @@ describe('CreateAppointment', () => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
     fakeHashProvider = new FakeHashProvider();
+    fakeNotificationsRepository = new FakeNotificationsRepository();
 
     createAppointment = new CreateAppointmentService(
       fakeAppointmentsRepository,
       fakeUsersRepository,
+      fakeNotificationsRepository,
     );
 
     createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
