@@ -8,6 +8,7 @@ import User from '@modules/users/infra/typeorm/entities/User';
 
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import FakeNotificationsRepository from '@modules/notifications/repositories/fakes/FakeNotificationsRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 
@@ -17,6 +18,7 @@ let fakeHashProvider: FakeHashProvider;
 let fakeNotificationsRepository: FakeNotificationsRepository;
 let createAppointment: CreateAppointmentService;
 let createUser: CreateUserService;
+let fakeCacheProvider: FakeCacheProvider;
 
 let provider: User;
 let user: User;
@@ -27,14 +29,20 @@ describe('CreateAppointment', () => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
     fakeHashProvider = new FakeHashProvider();
     fakeNotificationsRepository = new FakeNotificationsRepository();
+    fakeCacheProvider = new FakeCacheProvider();
 
     createAppointment = new CreateAppointmentService(
       fakeAppointmentsRepository,
       fakeUsersRepository,
       fakeNotificationsRepository,
+      fakeCacheProvider,
     );
 
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+    createUser = new CreateUserService(
+      fakeUsersRepository,
+      fakeHashProvider,
+      fakeCacheProvider,
+    );
 
     provider = await createUser.execute({
       name: 'John Doe',
